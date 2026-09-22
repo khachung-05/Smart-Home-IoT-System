@@ -2,7 +2,7 @@
 # DALN
 # 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
 
-> **Đồ án môn học / Đồ án tốt nghiệp Công nghệ Thông tin**  
+> **Đồ án môn học / Đồ án liên ngành Công nghệ Thông tin**  
 > **Sinh viên thực hiện:** Phạm Khắc Hùng  
 > **Nền tảng triển khai:** Vi điều khiển ESP32, RESTful API / MQTT Gateway, Cloud Backend & Dashboard/Mobile App  
 
@@ -174,15 +174,3 @@ docker-compose up -d
 3. Bấm **Kết nối** để theo dõi biểu đồ cảm biến và điều khiển thiết bị thời gian thực.
 
 ---
-
-## 👥 9. Thông tin tác giả
-
-* **Sinh viên thực hiện:** Phạm Khắc Hùng  
-* **Ngành:** Công nghệ Thông tin  
-* **Đề tài:** Hệ thống Nhà thông minh IoT (Smart Home System)  
-
----
-
-## 📄 10. Giấy phép (License)
-
-Dự án được phân phối dưới giấy phép **MIT License**.
