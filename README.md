@@ -51,4 +51,16 @@ Hệ thống giải quyết 3 bài toán trọng tâm[cite: 9]:
      [ Database SQLite3 ]          [ Web Dashboard (UI) ]
  (Lưu trữ telemetry chuỗi t/g)    (Giám sát & Điều khiển 2 chiều)
 
-##🛠️ 4. Ngăn xếp công nghệ (Tech Stack)
+```
+## 🛠️ 4. Ngăn xếp công nghệ (Tech Stack)
+
+| Phân hệ | Công nghệ / Linh kiện sử dụng | Vai trò kỹ thuật |
+| :--- | :--- | :--- |
+| **Phần cứng** | NodeMCU ESP8266, MQ-2, MH-RD (LM393), Relay 2 kênh, Active Buzzer | Thu thập dữ liệu cảm biến và đóng ngắt tải điện |
+| **Firmware** | C/C++ (VS Code + PlatformIO IDE) | Xử lý logic nhúng, kiểm soát ngưỡng biên & gọi REST API |
+| **Thư viện nhúng** | ESP8266WiFi, ESP8266HTTPClient, ArduinoJson | Đóng gói JSON và gửi nhận dữ liệu mạng |
+| **API / Backend** | Node.js (Express.js), CORS, Path | Tiếp nhận request từ ESP8266, điều hướng và lưu trữ dữ liệu |
+| **Cơ sở dữ liệu** | SQLite3 (data.db) | Lưu trữ dữ liệu cảm biến chuỗi thời gian và trạng thái Relay |
+| **Giao diện (UI)** | Web Dashboard (HTML5, Tailwind CSS, Chart.js, Lucide Icons) | Trực quan hóa dữ liệu và điều khiển thiết bị |
+
+
