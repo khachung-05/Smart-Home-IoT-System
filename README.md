@@ -1,8 +1,5 @@
 # DALN
 # 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
-
-# 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
-
 > **Đồ án môn học / Đồ án liên ngành Công nghệ Thông tin**<br>
 > **Sinh viên thực hiện:** Phạm Khắc Hùng<br>
 > **Lĩnh vực:** Nhúng IoT – API điều hướng dữ liệu từ thiết bị phần cứng lên Cloud<br>
