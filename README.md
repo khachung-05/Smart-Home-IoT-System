@@ -1,4 +1,3 @@
-# Smart-Home-IoT-System
 # DALN
 # 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
 
