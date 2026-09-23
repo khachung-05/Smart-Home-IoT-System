@@ -1,11 +1,12 @@
 # DALN
 # 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
 
-> **Đồ án môn học / Đồ án liên ngành Công nghệ Thông tin**  
-> **Sinh viên thực hiện:** Phạm Khắc Hùng 
-> **Lĩnh vực:** Nhúng IoT – API điều hướng dữ liệu từ thiết bị phần cứng lên Cloud 
-> **Nền tảng triển khai:** Vi điều khiển ESP8266, Node.js RESTful API Gateway, SQLite Time-Series Database & Web Dashboard
+# 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
 
+> **Đồ án môn học / Đồ án liên ngành Công nghệ Thông tin**<br>
+> **Sinh viên thực hiện:** Phạm Khắc Hùng<br>
+> **Lĩnh vực:** Nhúng IoT – API điều hướng dữ liệu từ thiết bị phần cứng lên Cloud<br>
+> **Nền tảng triển khai:** Vi điều khiển ESP8266, Node.js RESTful API Gateway, SQLite Time-Series Database & Web Dashboard
 ---
 
 ## 📌 1. Giới thiệu tổng quan[cite: 9]
