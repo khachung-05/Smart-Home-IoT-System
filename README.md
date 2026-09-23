@@ -64,3 +64,89 @@ Hệ thống giải quyết 3 bài toán trọng tâm[cite: 9]:
 | **Giao diện (UI)** | Web Dashboard (HTML5, Tailwind CSS, Chart.js, Lucide Icons) | Trực quan hóa dữ liệu và điều khiển thiết bị |
 
 
+## 🔌 5. Sơ đồ nối dây phần cứng (Pinout Reference)
+
+| Linh kiện / Module | Chân Module | Chân NodeMCU ESP8266 | Chế độ / Ghi chú |
+| :--- | :--- | :--- | :--- |
+| **MQ-2 Gas Sensor** | A0 (Analog) | A0 | Đọc mức điện áp analog nồng độ khí gas |
+| **MH-RD Rain Sensor** | D0 (Digital) | D6 | Kéo trở phát hiện nước mưa (Active LOW) |
+| **Relay Kênh 1 (Đèn)** | IN1 | D1 | Kích mức thấp (Active LOW) |
+| **Relay Kênh 2 (Quạt)** | IN2 | D2 | Kích mức thấp (Active LOW) |
+| **Active Buzzer** | Chân tín hiệu | D5 | Phát còi hú cảnh báo rò rỉ gas / mưa |
+| **Nguồn hệ thống** | 5V / 3.3V / GND | VIN / 3V3 / GND | Nguồn cấp cho vi điều khiển và các module |
+
+## 📡 6. Thiết kế API Điều hướng dữ liệu
+
+### 6.1. Cấu trúc Payload JSON từ phần cứng gửi lên Gateway
+
+```json
+{
+  "device_id": "ESP8266_SMARTHOME",
+  "temperature": 28.5,
+  "humidity": 65.2,
+  "gas_level": 125,
+  "rain": 0
+}
+```
+### 6.2. Danh sách Endpoints API điều hướng
+
+| Phương thức | Endpoint | Chức năng điều hướng |
+| :--- | :--- | :--- |
+| `POST` | `/api/v1/devices/telemetry` | Tiếp nhận dữ liệu định kỳ, bóc tách và ghi vào SQLite Database |
+| `GET` | `/api/v1/devices/telemetry/recent` | Truy vấn 20 bản ghi mới nhất phục vụ biểu đồ Dashboard |
+| `GET` | `/api/v1/devices/relays` | Truy vấn trạng thái hoạt động hiện tại của các rơ-le |
+| `POST` | `/api/v1/devices/relays` | Nhận lệnh điều khiển bật/tắt rơ-le từ Dashboard và cập nhật DB |
+
+## 📁 7. Cấu trúc thư mục dự án
+
+```text
+Smart-Home-IoT/
+├── client/                     # Giao diện người dùng Web Dashboard
+│   ├── index.html              # Trang giao diện chính (Tailwind CSS)
+│   ├── css/style.css           # Định kiểu và hiệu ứng chuyển động
+│   └── js/app.js               # Kết nối API, cập nhật biểu đồ thời gian thực
+├── server/                     # API Gateway Backend (Node.js)
+│   ├── server.js               # Express API & SQLite Data Gateway
+│   ├── package.json
+│   └── data.db                 # File cơ sở dữ liệu SQLite (tự động tạo)
+├── src/                        # Mã nguồn vi điều khiển ESP8266
+│   └── main.cpp                # Đọc cảm biến, gọi API & xử lý Failsafe tại biên
+├── include/
+│   └── config.h                # Cấu hình chân kết nối và thông số mạng
+├── platformio.ini              # Cấu hình biên dịch môi trường PlatformIO
+└── README.md                   # Tài liệu thuyết minh dự án
+```
+
+## ⚙️ 8. Hướng dẫn cài đặt & Triển khai
+
+### Bước 1: Khởi chạy API Gateway Server
+
+Yêu cầu máy tính/máy chủ đã cài đặt **Node.js**:
+
+```bash
+cd server
+npm install
+node server.js
+```
+
+*(Server sẽ khởi chạy tại địa chỉ: `http://localhost:5000`)*.
+
+### Bước 2: Nạp mã nguồn cho ESP8266
+
+1. Mở dự án bằng **VS Code** (đã cài đặt tiện ích mở rộng **PlatformIO IDE**).
+2. Điều chỉnh thông số Wi-Fi và địa chỉ IP Gateway trong file `src/main.cpp`:
+
+   ```cpp
+   const char* WIFI_SSID = "TEN_WIFI_CUA_BAN";
+   const char* WIFI_PASSWORD = "MAT_KHAU_WIFI";
+   const char* SERVER_BASE_URL = "http://<IP_MAY_TINH>:5000/api/v1/devices";
+   ```
+
+3. Cắm cáp kết nối bo mạch **NodeMCU ESP8266** với máy tính và nhấn nút **Upload** trên thanh trạng thái PlatformIO.
+### Bước 3: Mở giao diện điều khiển (Dashboard)
+
+1. Mở trình duyệt và truy cập: `http://localhost:5000`.
+2. Hoặc mở trực tiếp file `client/index.html` trên trình duyệt.
+
+
+
