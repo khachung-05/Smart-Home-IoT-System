@@ -3,9 +3,9 @@
 # 🏠 Smart Home IoT System (Hệ Thống Nhà Thông Minh)
 
 > **Đồ án môn học / Đồ án liên ngành Công nghệ Thông tin**  
-> **Sinh viên thực hiện:** Phạm Khắc Hùng[cite: 7, 9]  
-> **Lĩnh vực:** Nhúng IoT – API điều hướng dữ liệu từ thiết bị phần cứng lên Cloud[cite: 7, 9]  
-> **Nền tảng triển khai:** Vi điều khiển ESP8266, Node.js RESTful API Gateway, SQLite Time-Series Database & Web Dashboard[cite: 9]  
+> **Sinh viên thực hiện:** Phạm Khắc Hùng 
+> **Lĩnh vực:** Nhúng IoT – API điều hướng dữ liệu từ thiết bị phần cứng lên Cloud 
+> **Nền tảng triển khai:** Vi điều khiển ESP8266, Node.js RESTful API Gateway, SQLite Time-Series Database & Web Dashboard
 
 ---
 
