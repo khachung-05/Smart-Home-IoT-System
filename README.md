@@ -143,6 +143,62 @@ node server.js
 
 1. Mở trình duyệt và truy cập: `http://localhost:5000`.
 2. Hoặc mở trực tiếp file `client/index.html` trên trình duyệt.
+flowchart TD
+    %% Khởi tạo
+    START(["🔵 Khởi chạy Ứng dụng (Flutter)"]) --> INIT["Khởi tạo LocalStorage & nạp Token"]
+    INIT --> SPLASH["Màn hình Chào (Splash Screen)"]
+    SPLASH --> CHECK_AUTH{"Đã đăng nhập?<br/>(Có Token hợp lệ?)"}
+    
+    %% Đăng nhập / Xác thực
+    CHECK_AUTH -- "Chưa" --> LOGIN_SCR["Màn hình Đăng nhập / Đăng ký"]
+    LOGIN_SCR --> AUTH_REQ["POST /api/auth/login"]
+    AUTH_REQ --> MYSQL_AUTH[("MySQL: SELECT * FROM users<br/>WHERE email = ?")]
+    MYSQL_AUTH --> VERIFY_PASS{"Mật khẩu đúng?"}
+    VERIFY_PASS -- "Sai" --> LOGIN_SCR
+    VERIFY_PASS -- "Đúng" --> ISSUE_TOKEN["Node.js cấp Token JWT"] --> MAIN_APP
+    
+    CHECK_AUTH -- "Đã có Token" --> MAIN_APP["Giao diện chính (MainScreen)"]
+
+    %% Điều hướng chức năng
+    MAIN_APP --> USER_CHOICE{"Người dùng chọn tính năng?"}
+
+    %% NHÁNH 1: TRỢ LÝ AI ĐI CHỢ (GEMINI API)
+    USER_CHOICE -- "🤖 Mở Trợ lý AI Đi Chợ" --> AI_ENTRY["Màn hình AI Assistant"]
+    AI_ENTRY --> AI_INPUT[/"Nhập câu hỏi / Chọn Quick Prompt<br/>(VD: 'Gợi ý món ăn thanh nhiệt', 'Hôm nay ăn gì')"/]
+    AI_INPUT --> CALL_GEMINI["Gửi Prompt đến Google Gemini API<br/>(Sinh thực đơn & Phân tích nguyên liệu)"]
+    CALL_GEMINI --> EXTRACT_ING["Trích xuất danh sách nguyên liệu<br/>(Thịt bò, rau cải, cà chua...)"]
+    EXTRACT_ING --> QUERY_AI_PROD[("Node.js truy vấn MySQL:<br/>SELECT * FROM products WHERE name IN (...)")]
+    QUERY_AI_PROD --> RENDER_AI_MSG["Hiển thị câu trả lời AI + Gợi ý thẻ sản phẩm<br/>(Kèm giá, hình ảnh thực tế từ kho)"]
+    RENDER_AI_MSG --> AI_ADD_CART{"Bấm 'Thêm nhanh vào giỏ'?"}
+    AI_ADD_CART -- "Có" --> CART_STATE["Cập nhật sản phẩm vào Giỏ hàng"]
+    AI_ADD_CART -- "Tiếp tục chat" --> AI_INPUT
+
+    %% NHÁNH 2: MUA SẮM TRUYỀN THỐNG (DANH MỤC / TÌM KIẾM)
+    USER_CHOICE -- "🛒 Mua sắm truyền thống" --> BROWSE["Xem Danh mục / Tìm kiếm theo tên"]
+    BROWSE --> MYSQL_PROD[("MySQL: SELECT * FROM products<br/>WHERE category_id = ? OR name LIKE ?")]
+    MYSQL_PROD --> VIEW_DETAIL["Xem Chi tiết sản phẩm & Thêm vào giỏ"]
+    VIEW_DETAIL --> CART_STATE
+
+    %% NHÁNH 3: QUẢN TRỊ ADMIN (Nếu role == 'admin')
+    USER_CHOICE -- "👑 Admin Dashboard" --> ADMIN_VIEW["Quản lý Doanh thu, Sản phẩm, Đơn hàng"]
+    ADMIN_VIEW --> MYSQL_ADMIN[("MySQL: Quản trị CRUD")]
+
+    %% QUY TRÌNH THANH TOÁN (CHECKOUT)
+    CART_STATE --> GO_CART["Màn hình Giỏ hàng (Cart Screen)"]
+    GO_CART --> CHECKOUT_BTN{"Tiến hành Đặt hàng?"}
+    CHECKOUT_BTN -- "Không" --> MAIN_APP
+    CHECKOUT_BTN -- "Đồng ý" --> CHECKOUT_PAGE["Màn hình Thanh toán: Chọn địa chỉ, Voucher, PT thanh toán"]
+    
+    CHECKOUT_PAGE --> CONFIRM_ORDER{"Xác nhận Đặt hàng?"}
+    CONFIRM_ORDER -- "Hủy" --> GO_CART
+    CONFIRM_ORDER -- "Xác nhận" --> POST_ORDER["Gửi POST /api/orders đến Node.js"]
+    
+    %% Giao dịch MySQL
+    POST_ORDER --> MYSQL_TRANS[("MySQL Transaction:<br/>1. INSERT INTO orders<br/>2. INSERT INTO order_items<br/>3. UPDATE products SET stock = stock - qty")]
+    MYSQL_TRANS --> ORDER_OK["Đặt hàng thành công 🎉<br/>Xóa giỏ hàng & Điều hướng"]
+    ORDER_OK --> ORDER_TRACK["Theo dõi trạng thái đơn hàng<br/>(Chờ xác nhận ➜ Đang giao ➜ Hoàn thành)"]
+    ORDER_TRACK --> END_FLOW(["🔴 Kết thúc"])
+
 
 
 
